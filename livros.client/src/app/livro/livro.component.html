@@ -1,0 +1,220 @@
+<div class="row">
+  <h2>
+    Cadastrar Livro
+  </h2>
+
+  <form [formGroup]="livroForm">
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="txtNome" class="col-form-label">Título:</label>
+      </div>
+      <div class="col-md-10">
+        <input type="text" class="form-control" formControlName="titulo" id="txtNome" placeholder="Informe o título" maxlength="40">
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-2">
+        <label class="col-form-label">Editora:</label>
+      </div>
+      <div class="col-md-10">
+        <input type="text" class="form-control" formControlName="editora" id="txtNome" placeholder="Informe a editora" maxlength="40">
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-2">
+        <label class="col-form-label">Ano de Publicação: </label>
+      </div>
+      <div class="col-md-10">
+        <input type="number" formControlName="anoPublicacao" class="form-control" min="1500" max="3000" step="1" placeholder="ano" />
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-2">
+        <label class="col-form-label">Valor Unitário: (R$)</label>
+      </div>
+      <div class="col-md-10">
+        <input type="number" formControlName="valorUnitario" class="form-control" min="0" step="0.01" placeholder="0.00" />
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-2">
+        <label class="col-form-label">Estoque Inicial: </label>
+      </div>
+      <div class="col-md-10">
+        <input type="number" formControlName="estoqueInicial" class="form-control" min="0" step="1" placeholder="0" />
+      </div>
+    </div>
+    <hr />
+
+    <!--AUTORES-->
+    <div [formGroup]="autorForm">
+      <div class="form-group row">
+        <div class="col-md-3">
+          <label for="authorSelect">Selecione um(a) Autor(a):</label>
+        </div>
+        <div class="col-md-7">
+          <select id="authorSelect" class="form-select" formControlName="autorSelected">
+            <option [ngValue]="null">
+              Selecione um Autor
+            </option>
+            <option *ngFor="let autor of autores" [ngValue]="autor">
+              {{ autor.nome }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-success" (click)="adicionarAutor(genericModal)">
+            Adicionar Autor
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="autorCodAus && autorCodAus.length > 0; else noautor">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Autor</th>
+              <th scope="col">Excluir</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let autorLivro of autorCodAus.controls; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{autorLivro.value.nome}}</td>
+              <td><a class="btn btn-danger" (click)="openModal(genericModal,'Aviso', 'Deseja Realmente Excluir este Registro?', true, false,true,false,autorLivro.value.codAu)">Excluir</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template class="mt-3" #noautor>
+        <p>Nenhum(a) Autor(a) adicionado(a)</p>
+      </ng-template>
+
+    </div>
+
+    <hr />
+
+    <!--ASSUNTOS-->
+    <div [formGroup]="assuntoForm">
+      <div class="form-group row">
+        <div class="col-md-3">
+          <label for="assuntoSelect">Selecione um Assunto:</label>
+        </div>
+        <div class="col-md-7">
+          <select id="assuntoSelect" class="form-select" formControlName="assuntoSelected">
+            <option [ngValue]="null">
+              Selecione um Assunto
+            </option>
+            <option *ngFor="let assunto of assuntos" [ngValue]="assunto">
+              {{ assunto.descricao }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-success" (click)="adicionarAssunto(genericModal)">
+            Adicionar Assunto
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="assuntoCodAs && assuntoCodAs.length > 0; else noassunto">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Assunto</th>
+              <th scope="col">Excluir</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let assuntoLivro of assuntoCodAs.controls; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{assuntoLivro.value.descricao}}</td>
+              <td><a class="btn btn-danger" (click)="openModal(genericModal,'Aviso', 'Deseja Realmente Excluir este Registro?', true,false,false, true,assuntoLivro.value.codAs)">Excluir</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template class="mt-3" #noassunto>
+        <p>Nenhum Assunto(a) adicionado</p>
+      </ng-template>
+
+    </div>
+
+    <div class="form-group mt-3" *ngIf="cadastrar">
+      <button class="btn btn-success w-100" (click)="btnCadastrarClick(genericModal)">Cadastrar</button>
+      <hr>
+    </div>
+
+    <div class="form-group mt-3" *ngIf="!cadastrar">
+      <button class="btn btn-primary w-100 mt-3" (click)="btnAlterarClick(genericModal)">Alterar</button>
+      <button class="btn btn-light w-100 mt-3" (click)="limpaCampos()">Cancelar Seleção</button>
+      <hr>
+    </div>
+  </form>
+
+  <div *ngIf="isLoading">
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+      </div>
+    </div>
+  </div>
+
+  <hr />
+  <div *ngIf="isLoading || livros.length > 0; else nolivros">
+    <div *ngFor="let livro of livros" class="card" style="width: 18rem; margin: 10px;">
+      <div class="card-body">
+        <h5 class="card-title">{{ livro.titulo }}</h5>
+        <hr />
+        <h6 class="card-subtitle mb-2 text-muted">Editora: {{ livro.editora }}</h6>
+        <p class="card-text">Ano de Publicação: {{ livro.anoPublicacao }}</p>
+
+        <p class="card-text">Autor(es): {{ getAutores(livro.autorCodAus) }}</p>
+        <p class="card-text">Assunto(s): {{ getAssuntos(livro.assuntoCodAs) }}</p>
+
+        <p class="card-text">Valor Unitário: R$ {{ livro.valorUnitario }}</p>
+        <p class="card-text">Estoque Inicial: {{ livro.estoqueInicial }}</p>
+
+        <div class="card-footer">
+          <button class="btn btn-primary" (click)="preparaAlteracao(livro)">Alterar</button>
+          <button class="btn btn-danger" (click)="openModal(genericModal,'Aviso', 'Deseja Realmente Excluir este Registro?', true, true,false,false,livro.codl)">Excluir</button>
+        </div>
+      </div>
+    </div>
+   </div>
+
+
+    <ng-template #nolivros>
+      <p>Nenhum livro cadastrado</p>
+    </ng-template>
+
+
+
+
+
+    <ng-template #genericModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">{{tituloModal}}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close button')"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{msgModal}}</p>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-danger" [style.display]="btnEsquerdo ? 'inline' : 'none'" (click)="btnExcluirClick(genericModal)">Sim</button>
+        <button type="button" class="btn btn-danger" [style.display]="btnEsquerdoAutor ? 'inline' : 'none'" (click)="btnExcluirClickAutor(genericModal)">Sim</button>
+        <button type="button" class="btn btn-danger" [style.display]="btnEsquerdoAssunto ? 'inline' : 'none'" (click)="btnExcluirClickAssunto(genericModal)">Sim</button>
+        <button type="button" class="btn btn-light" [style.display]="btnDireito ? 'inline' : 'none'" (click)="modal.close('Right button click')">{{msgBotao}}</button>
+      </div>
+    </ng-template>
+
+  </div>

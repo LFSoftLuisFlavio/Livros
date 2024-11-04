@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/04/2024 14:45:38" ReportInfo.Modified="11/04/2024 14:59:19" ReportInfo.CreatorVersion="2025.1.0.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="lista" ReferenceName="lista" DataType="System.Int32" Enabled="true">
+      <Column Name="AutorId" DataType="System.Int32"/>
+      <Column Name="NomeAutor" DataType="System.String"/>
+      <Column Name="Livros" DataType="System.String"/>
+      <Column Name="AnosPublicacao" DataType="System.String"/>
+      <Column Name="Editoras" DataType="System.String"/>
+      <Column Name="ValoresUnitarios" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8" Border.Color="Transparent">
+      <TextObject Name="Text6" Left="9.45" Top="9.45" Width="94.5" Height="18.9" Text="[Date]" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="28.35">
+      <TextObject Name="Text8" Left="9.45" Top="9.45" Width="113.4" Height="18.9" Border.Lines="All" Text="Código" Font="Arial, 10pt"/>
+      <TextObject Name="Text9" Left="122.85" Top="9.45" Width="132.3" Height="18.9" Border.Lines="All" Text="Autor" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="255.15" Top="9.45" Width="132.3" Height="18.9" Border.Lines="All" Text="Livros" Font="Arial, 10pt"/>
+      <TextObject Name="Text11" Left="387.45" Top="9.45" Width="141.75" Height="18.9" Border.Lines="All" Text="Ano de Publicação" Font="Arial, 10pt"/>
+      <TextObject Name="Text12" Left="529.2" Top="9.45" Width="170.1" Height="18.9" Border.Lines="All" Text="Editoras" Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="74.15" Width="718.2" Height="18.9" Border.Lines="All" Border.Color="Transparent" DataSource="lista">
+      <TextObject Name="Text2" Left="122.85" Width="132.3" Height="18.9" Border.Lines="All" Text="[lista.NomeAutor]" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="255.15" Width="132.3" Height="18.9" Border.Lines="All" Text="[lista.Livros]" Font="Arial, 10pt"/>
+      <TextObject Name="Text4" Left="387.45" Width="141.75" Height="18.9" Border.Lines="All" Text="[lista.AnosPublicacao]" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="529.2" Width="170.1" Height="18.9" Border.Lines="All" Text="[lista.Editoras]" Font="Arial, 10pt"/>
+      <TextObject Name="Text1" Left="9.45" Width="113.4" Height="18.9" Border.Lines="All" Text="[lista.AutorId]" Font="Arial, 10pt"/>
+      <Sort>
+        <Sort Expression="[lista.NomeAutor]"/>
+      </Sort>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="97.05" Width="718.2" Height="18.9">
+      <TextObject Name="Text7" Left="614.25" Width="94.5" Height="18.9" Text="[Page]" Font="Arial, 10pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

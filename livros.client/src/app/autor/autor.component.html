@@ -1,0 +1,74 @@
+<div class="row">
+  <h2>
+    Cadastrar Autor(a)
+  </h2>
+
+  <form [formGroup]="autorForm">
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="txtNome" class="col-form-label">Nome:</label>
+      </div>
+      <div class="col-md-10">
+        <input type="text" class="form-control" formControlName="nome" id="txtNome" placeholder="Informe o(a) nome do Autor(a)"  maxlength="40">
+      </div>
+    </div>
+    <div class="form-group mt-3" *ngIf="cadastrar">
+      <button class="btn btn-success w-100" (click)="btnCadastrarClick(authorModal)">Cadastrar</button>
+      <hr>
+    </div>
+
+    <div class="form-group mt-3" *ngIf="!cadastrar">
+      <button class="btn btn-primary w-100 mt-3" (click)="btnAlterarClick(authorModal)">Alterar</button>
+      <button class="btn btn-light w-100 mt-3" (click)="limpaCampos()">Cancelar Seleção</button>
+      <hr>
+    </div>
+  </form>
+
+  <div *ngIf="isLoading">
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading || autores.length > 0; else noAutores">
+    <table class="table table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Autor(a)</th>
+          <th scope="col">Alterar</th>
+          <th scope="col">Excluir</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let autor of autores">
+          <th scope="row">{{autor.codAu}}</th>
+          <td>{{autor.nome}}</td>
+          <td><a class="btn btn-primary" (click)="preparaAlteracao(autor)">Alterar</a></td>
+          <td><a class="btn btn-danger" (click)="openModal(authorModal,'Aviso', 'Deseja Realmente Excluir este Registro?', true,true,autor.codAu)">Excluir</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noAutores>
+    <p>Nenhum autor cadastrado</p>
+  </ng-template>
+
+  <ng-template #authorModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">{{tituloModal}}</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close button')"></button>
+    </div>
+    <div class="modal-body">
+      <p>{{msgModal}}</p>
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+      <button type="button" class="btn btn-danger" [style.display]="btnEsquerdo ? 'inline' : 'none'" (click)="btnExcluirClick(authorModal)">Sim</button>
+      <button type="button" class="btn btn-light" [style.display]="btnDireito ? 'inline' : 'none'" (click)="modal.close('Right button click')">{{msgBotao}}</button>
+    </div>
+  </ng-template>
+
+</div>
