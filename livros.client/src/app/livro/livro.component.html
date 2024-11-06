@@ -170,7 +170,7 @@
   </div>
 
   <hr />
-  <div *ngIf="isLoading || livros.length > 0; else nolivros">
+  <!--<div *ngIf="isLoading || livros.length > 0; else nolivros">
     <div *ngFor="let livro of livros" class="card" style="width: 18rem; margin: 10px;">
       <div class="card-body">
         <h5 class="card-title">{{ livro.titulo }}</h5>
@@ -190,31 +190,52 @@
         </div>
       </div>
     </div>
-   </div>
-
-
-    <ng-template #nolivros>
-      <p>Nenhum livro cadastrado</p>
-    </ng-template>
-
-
-
-
-
-    <ng-template #genericModal let-modal>
-      <div class="modal-header">
-        <h5 class="modal-title">{{tituloModal}}</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close button')"></button>
+   </div>-->
+  <div *ngIf="isLoading || livros.length > 0; else nolivros">
+    <div class="row">
+      <div *ngFor="let livro of livros" class="col-md-4 col-sm-12" style="margin-bottom: 20px;">
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <h5 class="card-title">{{ livro.titulo }}</h5>
+            <hr />
+            <h6 class="card-subtitle mb-2 text-muted">Editora: {{ livro.editora }}</h6>
+            <p class="card-text">Ano de Publicação: {{ livro.anoPublicacao }}</p>
+            <p class="card-text">Autor(es): {{ getAutores(livro.autorCodAus) }}</p>
+            <p class="card-text">Assunto(s): {{ getAssuntos(livro.assuntoCodAs) }}</p>
+            <p class="card-text">Valor Unitário: R$ {{ livro.valorUnitario }}</p>
+            <p class="card-text">Estoque Inicial: {{ livro.estoqueInicial }}</p>
+            <div class="card-footer">
+              <button class="btn btn-primary" (click)="preparaAlteracao(livro)">Alterar</button>
+              <button class="btn btn-danger" (click)="openModal(genericModal,'Aviso', 'Deseja Realmente Excluir este Registro?', true, true,false,false,livro.codl)">Excluir</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <p>{{msgModal}}</p>
-      </div>
-      <div class="modal-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-danger" [style.display]="btnEsquerdo ? 'inline' : 'none'" (click)="btnExcluirClick(genericModal)">Sim</button>
-        <button type="button" class="btn btn-danger" [style.display]="btnEsquerdoAutor ? 'inline' : 'none'" (click)="btnExcluirClickAutor(genericModal)">Sim</button>
-        <button type="button" class="btn btn-danger" [style.display]="btnEsquerdoAssunto ? 'inline' : 'none'" (click)="btnExcluirClickAssunto(genericModal)">Sim</button>
-        <button type="button" class="btn btn-light" [style.display]="btnDireito ? 'inline' : 'none'" (click)="modal.close('Right button click')">{{msgBotao}}</button>
-      </div>
-    </ng-template>
-
+    </div>
   </div>
+
+  <ng-template #nolivros>
+    <p>Nenhum livro cadastrado</p>
+  </ng-template>
+
+
+
+
+
+  <ng-template #genericModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">{{tituloModal}}</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close button')"></button>
+    </div>
+    <div class="modal-body">
+      <p>{{msgModal}}</p>
+    </div>
+    <div class="modal-footer d-flex justify-content-between">
+      <button type="button" class="btn btn-danger" [style.display]="btnEsquerdo ? 'inline' : 'none'" (click)="btnExcluirClick(genericModal)">Sim</button>
+      <button type="button" class="btn btn-danger" [style.display]="btnEsquerdoAutor ? 'inline' : 'none'" (click)="btnExcluirClickAutor(genericModal)">Sim</button>
+      <button type="button" class="btn btn-danger" [style.display]="btnEsquerdoAssunto ? 'inline' : 'none'" (click)="btnExcluirClickAssunto(genericModal)">Sim</button>
+      <button type="button" class="btn btn-light" [style.display]="btnDireito ? 'inline' : 'none'" (click)="modal.close('Right button click')">{{msgBotao}}</button>
+    </div>
+  </ng-template>
+
+</div>

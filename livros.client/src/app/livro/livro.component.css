@@ -1,0 +1,11 @@
+.livros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas grandes */
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .livros-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 coluna em telas pequenas */
+  }
+}
