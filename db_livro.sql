@@ -137,10 +137,8 @@ DROP TABLE IF EXISTS `viewrelatoriolivrosdoautor`;
 /*!50001 CREATE TABLE  `viewrelatoriolivrosdoautor`(
  `AutorId` int(11) ,
  `NomeAutor` varchar(40) ,
- `Livros` text ,
- `AnosPublicacao` text ,
- `Editoras` text ,
- `ValoresUnitarios` text 
+ `LivrosAnoPublicacaoComAssuntos` text ,
+ `Editoras` text 
 )*/;
 
 /*View structure for view viewrelatoriolivrosdoautor */
@@ -148,7 +146,7 @@ DROP TABLE IF EXISTS `viewrelatoriolivrosdoautor`;
 /*!50001 DROP TABLE IF EXISTS `viewrelatoriolivrosdoautor` */;
 /*!50001 DROP VIEW IF EXISTS `viewrelatoriolivrosdoautor` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewrelatoriolivrosdoautor` AS select `a`.`CodAu` AS `AutorId`,`a`.`Nome` AS `NomeAutor`,group_concat(distinct `l`.`Titulo` order by `l`.`Titulo` ASC separator ', ') AS `Livros`,group_concat(distinct `l`.`AnoPublicacao` order by `l`.`AnoPublicacao` ASC separator ', ') AS `AnosPublicacao`,group_concat(distinct `l`.`Editora` order by `l`.`Editora` ASC separator ', ') AS `Editoras`,group_concat(distinct `l`.`ValorUnitario` order by `l`.`ValorUnitario` ASC separator ', ') AS `ValoresUnitarios` from ((`autor` `a` join `livro_autor` `la` on((`a`.`CodAu` = `la`.`Autor_CodAu`))) join `livro` `l` on((`la`.`Livro_Codl` = `l`.`Codl`))) where (`a`.`Ativo` and `l`.`Ativo`) group by `a`.`CodAu`,`a`.`Nome` */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewrelatoriolivrosdoautor` AS select `a`.`CodAu` AS `AutorId`,`a`.`Nome` AS `NomeAutor`,group_concat(distinct concat(`l`.`Titulo`,concat(' - ',`l`.`AnoPublicacao`,' - '),' (',(select group_concat(`a2`.`Descricao` order by `a2`.`Descricao` ASC separator ', ') from (`livro_assunto` `la2` join `assunto` `a2` on((`la2`.`Assunto_CodAs` = `a2`.`CodAs`))) where ((`la2`.`Livro_Codl` = `l`.`Codl`) and `a2`.`Ativo`)),')') order by `l`.`Titulo` ASC separator ', ') AS `LivrosAnoPublicacaoComAssuntos`,group_concat(distinct `l`.`Editora` order by `l`.`Editora` ASC separator ', ') AS `Editoras` from ((`autor` `a` join `livro_autor` `la` on((`a`.`CodAu` = `la`.`Autor_CodAu`))) join `livro` `l` on((`la`.`Livro_Codl` = `l`.`Codl`))) where (`a`.`Ativo` and `l`.`Ativo`) group by `a`.`CodAu`,`a`.`Nome` */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
