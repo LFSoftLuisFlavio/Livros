@@ -106,7 +106,7 @@ export class AssuntoComponent implements OnInit, OnDestroy {
   }
 
   btnExcluirClick(contentModal: any) {
-    //console.log(idExcluir);
+    this.closeModal();
     const assuntoExcluir = this.assuntos.find(x => x.codAs === this.idExcluir);
     if (assuntoExcluir) {
       this.isLoading = true;

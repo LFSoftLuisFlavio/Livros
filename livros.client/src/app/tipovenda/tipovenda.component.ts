@@ -107,7 +107,7 @@ export class TipovendaComponent implements OnInit, OnDestroy {
   }
 
   btnExcluirClick(contentModal: any) {
-    //console.log(idExcluir);
+    this.closeModal();
     const assuntoExcluir = this.tipoVendas.find(x => x.codTv === this.idExcluir);
     if (assuntoExcluir) {
       this.isLoading = true;
