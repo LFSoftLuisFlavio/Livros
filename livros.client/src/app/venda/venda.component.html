@@ -1,1 +1,163 @@
-<p>venda works!</p>
+<div class="row">
+  <h2 class="mt-3">
+    Cadastrar Venda
+  </h2>
+
+  <form [formGroup]="vendaForm">
+
+    <div class="form-group row  mt-3">
+      <div class="col-md-2">
+        <label class="col-form-label">Data da Venda:</label>
+      </div>
+      <div class="col-md-10">
+        <input type="date" class="form-control" formControlName="dataVenda" id="dtVenda">
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-2 ">
+        <label class="col-form-label">Consumidor Final:</label>
+      </div>
+      <div class="col-md-2 mt-2">
+        <div class="form-check form-check-inline">
+          <input type="radio" formControlName="consumidorFinal" class="form-check-input" value="Sim" (change)="habilitaDesabilitaCliente(true)" />
+          <label class="form-check-label" for="consumidorFinalSim">Sim</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input type="radio" formControlName="consumidorFinal" class="form-check-input" value="Não" (change)="habilitaDesabilitaCliente(false)" />
+          <label class="form-check-label" for="consumidorFinalNao">Não</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-2">
+        <label class="col-form-label">Cliente:</label>
+      </div>
+      <div class="col-md-10">
+        <input type="text" class="form-control" formControlName="cliente" placeholder="Informe o Nome do Cliente" />
+      </div>
+    </div>
+
+    <div class="form-group row mt-3">
+      <div class="col-md-3 mt-2">
+        <label for="tipoVendaSelect">Selecione um Tipo de Venda:</label>
+      </div>
+      <div class="col-md-7">
+        <select id="tipoVendaSelect" class="form-select" formControlName="tipoVendaSelect" (change)="calculaValorTotal()">
+          <option [ngValue]="null">
+            Selecione um Tipo de Venda
+          </option>
+          <option *ngFor="let tipovenda of tipoVendas" [ngValue]="tipovenda">
+            {{ tipovenda.descricao }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <hr />
+
+    <div [formGroup]="vendaLivroForm">
+      <div class="form-group row mt-3">
+        <div class="col-md-3 mt-2">
+          <label for="livroSelect">Selecione um Livro:</label>
+        </div>
+        <div class="col-md-7">
+          <select id="livroSelect" class="form-select" formControlName="livroSelect" (change)="livroSelecionado()">
+            <option [ngValue]="null">
+              Selecione um Livro
+            </option>
+            <option *ngFor="let livro of livros" [ngValue]="livro">
+              {{ livro.titulo }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mt-3">
+        <div class="col-md-2">
+          <label class="col-form-label">Quantidade:</label>
+        </div>
+        <div class="col-md-10">
+          <input type="number" formControlName="quantidade" class="form-control" placeholder="Informe a quantidade Vendida" min="0" step="1" (input)="calculaValorTotal()" />
+        </div>
+      </div>
+
+      <div class="form-group row mt-3">
+        <div class="col-md-2">
+          <label class="col-form-label">Valor Unitário: R$</label>
+        </div>
+        <div class="col-md-10">
+          <input type="number" formControlName="valorUnitario" class="form-control" placeholder="Informe o Valor Unitário da Venda" min="0" step="0.01" (input)="calculaValorTotal()" />
+        </div>
+      </div>
+
+      <div class="form-group row mt-3">
+        <div class="col-md-2">
+          <label class="col-form-label">Desconto: </label>
+        </div>
+        <div class="col-md-10">
+          <input type="text" formControlName="porcentagemDesconto" class="form-control" placeholder="Selecione um Tipo de Venda" />
+        </div>
+      </div>
+
+      <div class="form-group row mt-3">
+        <div class="col-md-2">
+          <label class="col-form-label">Desconto: R$</label>
+        </div>
+        <div class="col-md-10">
+          <input type="number" formControlName="valorDesconto" class="form-control" placeholder="Informe o Desconto" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="form-group row mt-3">
+        <div class="col-md-2">
+          <label class="col-form-label">Valor Total: R$</label>
+        </div>
+        <div class="col-md-10">
+          <input type="number" formControlName="valorTotal" class="form-control" placeholder="Informe o Valor Total" />
+        </div>
+      </div>
+
+      <!--<div class="form-group mt-3">
+        <button class="btn btn-success w-100" (click)="adicionarLivro()">
+          Adicionar Livro
+        </button>
+      </div>-->
+    </div>
+
+    <!--<div class="row">
+      <div *ngFor="let livroVenda of vendaLivros" class="col-md-4 col-sm-12" style="margin-bottom: 20px;">
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <h5 class="card-title">{{ livroVenda.quantidade }}</h5>
+            <hr />
+            <h6 class="card-subtitle mb-2 text-muted">Valor Unitário: {{ livroVenda.valorUnitario }}</h6>
+            <p class="card-text">Ano de Publicação: {{ livroVenda.livro.Titulo }}</p>
+           
+            <div class="card-footer">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <!--<div class="form-group mt-3">
+    <button class="btn btn-success w-100">Cadastrar</button>
+    <hr>
+  </div>
+
+  <div class="form-group mt-3">
+    <button class="btn btn-primary w-100 mt-3">Alterar</button>
+    <button class="btn btn-light w-100 mt-3">Cancelar Seleção</button>
+    <hr>
+  </div>-->
+  </form>
+
+
+  <ng-template #noassuntoes>
+    <p>Nenhuma Venda Realizada</p>
+  </ng-template>
+
+
+</div>
